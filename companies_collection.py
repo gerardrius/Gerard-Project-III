@@ -1,5 +1,6 @@
 # Libraries
 from pymongo import MongoClient
+import pandas as pd
 
 # Companies' collection
 client = MongoClient('localhost:27017')
@@ -13,7 +14,7 @@ def mongo (database, collection):
     c = db.get_collection(collection)
     return c
 
-def business_activities (collection, money, scale):
+def collection_queried (collection, money, scale):
     '''
     Function that asks what business activities the company should compare to.
     Accepts the collection to query, the money amount and the scale of this amount (k/M).
@@ -52,6 +53,5 @@ def business_activities (collection, money, scale):
 
     df = pd.DataFrame(queried_db)
     df.to_csv('companies_queried.csv', index=False)
-    df.to_json('companies_queried.json')
     
     return f'The collection has been exported, with a total remaining of {len(queried_db)} companies!'
