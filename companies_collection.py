@@ -1,5 +1,6 @@
 # Libraries
 from pymongo import MongoClient
+from bson.json_util import dumps
 import pandas as pd
 
 # Companies' collection
@@ -53,5 +54,13 @@ def collection_queried (collection, money, scale):
 
     df = pd.DataFrame(queried_db)
     df.to_csv('companies_queried.csv', index=False)
+
+    cursor = companies.find(total_query)
+    with open('queried_db.json', 'w') as file:
+        file.write('[')
+        for document in cursor:
+            file.write(dumps(document))
+            file.write(',')
+        file.write(']')
     
     return f'The collection has been exported, with a total remaining of {len(queried_db)} companies!'
