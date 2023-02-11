@@ -15,11 +15,10 @@ def mongo (database, collection):
     c = db.get_collection(collection)
     return c
 
-def collection_queried (collection, money, scale):
+def collection_queried (collection):
     '''
     Function that asks what business activities the company should compare to.
-    Accepts the collection to query, the money amount and the scale of this amount (k/M).
-    Exports the filtered collection directly.
+    Accepts the collection to query and exports the filtered collection directly, both as CSV and JSON.
     '''
     # First part: creates query for categories, based on the user interaction through inputs.
     categories_list = []
@@ -41,12 +40,20 @@ def collection_queried (collection, money, scale):
     query_category = {'category_code': {'$regex': regex_expression}}
 
     # Second part: query for total money raised.
-    if scale == 'm' or scale == 'M':
+    scale = 'M'
+    # while scale not in ['m', 'M', 'k', 'K']:
+    #     scale = input('What scale you want to consider for total money raised? (k/M)')
+
+    money = 'digit'
+    while money.isdigit() == False:
+        money = input(f'What is the minimum amount that the company must have raised (in {scale.upper()}) in funding rounds?')
+
+    if scale in ['m', 'M']:
         query_scale = {'total_money_raised': {'$regex': '(?i)m'}} # This query accepts M amounts and avoids K quantities.
         query_amount = {'total_money_raised': {'$gte': f'{money}M'}}
-    elif scale == 'k' or scale == 'K':
-        query_scale = {'total_money_raised': {'$regex': '(?i)k'}} # This query accepts M amounts and avoids K quantities.
-        query_amount = {'total_money_raised': {'$gte': f'{money}k'}}
+    # elif scale in ['k', 'K']:
+    #    query_scale = {'total_money_raised': {'$regex': '(?i)k'}} # This query accepts K amounts and includes any M quantities.
+    #    query_amount = {'total_money_raised': {'$gte': f'{money}k'}}
     
     # Third part: applying queries and export of the collection.
     total_query = {'$and': [query_amount, query_scale, query_category]}
