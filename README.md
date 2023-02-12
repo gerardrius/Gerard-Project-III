@@ -1,25 +1,32 @@
 # Project-III
 
-City choice:
+City choice: Paris ✅
 
 Database criteria: 
-    Companies that do design
-    Tech startups that raised 1M
+    Companies that do design ✅
+    Tech startups that raised 1M ✅
 
-- Plot in HeatMap to decide zone
--> download geojson of that particular zone
+- Plot in HeatMap to decide zone 
+-> download geojson of that particular zone: Paris ✅
 
 
-Shrink
+4 Squared criteria: 
+    1. Query instances in Paris through 4sq ✅ function done
+    2. get the count per district -> store data in df 
+    3. plot map distribution per variable ->
+    4. Define ponderation scheme -> dividing instances by sq kms: sum of instances/area (also you could attribute some weight)
 
-4 Squared criteria:
-    Nearby schools
-    Starbucks
+    for airports, distance, the less the most points.
+
+    5. for basketball, query basketball stadiums and plot a radius of 10kms (should be easy)
+
+    Nearby schools 
+    Starbucks 
     Airports
     Party
     Vegan restaurants
     Basketball stadiums
     Dog hair dresser
 
--> with the zone geojson: density of each item in each subzone
+CHOICE OF THE DISTRICT. 
 
