@@ -22,6 +22,10 @@ db = client.get_database('ironhack')
 paris = db.get_collection('paris')
 paris = list(paris.find())
 
+# import of Paris districts' collection, (with feature!!!)
+with open('feature.geojson') as geo_file:
+    geo_feature = json.load(geo_file)
+
 
 def foursquare_query (query, place, limit=10):
     '''
@@ -81,5 +85,19 @@ def spot_finder (df):
 
     return count_df
 
-def map_distribution_plot (count_df):
+# Feature geojson is the one used to plot
+def district_distribution (count_df):
+    '''
+    Function that plots the establishments distribution in Paris' districts.
+    Takes the count dataframe obtained in the function above, with the count of establishments per district
+    Returns the map plot of this distribution.
+    '''
+    paris_map = Map(location = [48.86, 2.35], zoom_start = 11)
+    folium.Choropleth(
+        geo_data=geo_feature,
+        data=count_df,
+        columns=count_df.columns,
+        key_on="feature.properties.name",
+    ).add_to(paris_map)
     
+    return paris_map    
