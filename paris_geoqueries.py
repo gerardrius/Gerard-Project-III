@@ -3,7 +3,6 @@ import os
 import requests
 import json
 from dotenv import load_dotenv
-from bson.json_util import dumps
 import pandas as pd
 import folium
 from folium import Choropleth, Circle, Marker, Icon, Map, TileLayer
@@ -72,14 +71,19 @@ def foursquare_query (query, place, limit=10):
 
     # full response
     response = requests.get(url, headers=headers).json()['results']
+    # name of the establishment
+    response[0]['name']
+    # coordinates
+    response[0]['geocodes']['main']['latitude']
+    response[0]['geocodes']['main']['longitude']
 
     # we append Point tupples with lon, lat coordinates to the request_points list:
     request_points = []
     for i in range(len(response)):
         request_points.append(Point(response[i]['geocodes']['main']['longitude'], response[i]['geocodes']['main']['latitude']))
-
+    
     # creation of dataframe with the actual shapely Point coordinates
-    d = {response[0]['categories'][0]['name']: request_points, 'Name': response[i]['name']}
+    d = {'Coordinates': request_points, 'Name': response[i]['name'], 'Type': response[i]['categories'][0]['name']}
     df = pd.DataFrame(data=d)
     return df
 
@@ -87,8 +91,9 @@ def spot_finder (df): # accepts as much df as variables of interest for the new 
     '''
     Function that counts instances per district in Paris.
     Takes the dataframe obtained in the 4 square geoquery
-    Returns a dataframe with the density of establishments per squared km per district.
+    Returns a dictionary with the count of establishments per district.
     '''
+
     # We append the list of districts as keys in a dict, and set a default value of 0 for each key.
     district_list = [paris[i]['properties']['name'] for i in range(len(paris))]
     dict_count = {}
@@ -174,6 +179,3 @@ def distance_criteria (query):
     distance_from_centre.rename(columns = {'index': 'Points'}, inplace = True, errors = 'raise')
 
     return distance_from_centre
-
-def density_criteria ():
-    pass
