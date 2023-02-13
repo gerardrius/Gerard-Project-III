@@ -1,28 +1,32 @@
-# Project-III
+# Project-III | Rocket Studios headquarters' location 📍
 
 Rocket Studios is a company that operates in the videogames sector. It was established in 2021 in Barcelona, since the city is considered one of the most important hubs in tech. 
 
 Until now, Rocket Studios have not had physical offices nor headquarters; all employees worked remotely. However, the company is growing fast and the CEO would like to enhance corporate culture and face-to-face activity among the firm.
 
+
+![rocket](../Gerard-Project-III/Images/Rocket-Analytics.png)
+
+
 With this objective, the CEO asked the Analytics team what district should the company settle its headquarters. Beforehand, the HR team conducted some research among company peers to know which are the needs and demands of the employees regarding the new location.
 
 The summary would be the following:
 
-    The location should be close to other firms belonging to the design sector.
+- The location should be close to other firms belonging to the design sector.
 
-    There must be close startups that have raised at least 1M in funding rounds.
+- There must be close startups that have raised at least 1M in funding rounds.
 
-    There must be elementary schools nearby.
+- There must be elementary schools nearby.
 
-    Account managers need to travel a lot.
+- Account managers need to travel a lot.
 
-    Executives like Starbucks A LOT.
+- Executives like Starbucks A LOT.
 
-    Maintenance guy would like have a close basketball court.
+- Maintenance guy would like have a close basketball court.
 
-    The office dog—"Dobby" needs a hairdresser every month.
+- The office dog—"Dobby" needs a hairdresser every month.
 
-    The CEO loves vegan restaurants.
+- The CEO loves vegan restaurants.
 
 Having said that, let's get to know the new district location of Rocket Studios!🚀
 
