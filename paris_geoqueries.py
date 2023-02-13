@@ -54,7 +54,7 @@ def arrondissement_scraping ():
 # Dataframe with each district area in squared kilometers.
 area_info = arrondissement_scraping()
 
-def foursquare_query (query, place, limit=10):
+def foursquare_query (query, category, place, limit=10):
     '''
     Function that makes 4square queries
     It takes the query, e.g. Starbucks, Airports, Dog hairdressers, etc., the reference point (Paris), and a 
@@ -62,7 +62,7 @@ def foursquare_query (query, place, limit=10):
     Returns a single-column dataframe with shapely Points, the coordinates of each establishment or instance.
     '''
     # url for the API query
-    url = f"https://api.foursquare.com/v3/places/search?query={query}&near={place}&limit={limit}"
+    url = f"https://api.foursquare.com/v3/places/search?query={query}&categories={category}&near={place}&sort=DISTANCE&limit={limit}"
 
     headers = {
         "accept": "application/json",
@@ -93,7 +93,6 @@ def spot_finder (df): # accepts as much df as variables of interest for the new 
     Takes the dataframe obtained in the 4 square geoquery
     Returns a dictionary with the count of establishments per district.
     '''
-
     # We append the list of districts as keys in a dict, and set a default value of 0 for each key.
     district_list = [paris[i]['properties']['name'] for i in range(len(paris))]
     dict_count = {}
@@ -140,7 +139,7 @@ def district_distribution (count_df):
     
     return paris_map
 
-def distance_criteria (query):
+def distance_criteria (query, category):
     '''
     Function defined to run into distance criteria function, running specific queries at 4 square to get distances from
     each district to the place queried.
@@ -159,7 +158,7 @@ def distance_criteria (query):
 
     # url for the API query
     for district, centre_point in district_centre_dict.items():
-        url = f"https://api.foursquare.com/v3/places/search?query={query}&ll={centre_point[0]}%2C{centre_point[1]}&sort=DISTANCE&limit=1"
+        url = f"https://api.foursquare.com/v3/places/search?query={query}&categories={category}&ll={centre_point[0]}%2C{centre_point[1]}&sort=DISTANCE&limit=1"
 
         headers = {
             "accept": "application/json",
@@ -173,9 +172,7 @@ def distance_criteria (query):
 
     distance_from_centre = pd.DataFrame.from_dict(distance_from_centre, orient='index').reset_index(drop=False)
     distance_from_centre.rename(columns = {'index': 'District', 0: 'Distance'}, inplace = True, errors = 'raise')
-    distance_from_centre.sort_values(by = ['Distance'], ascending = False, inplace = True)
-    distance_from_centre.reset_index(inplace = True, drop = True)
-    distance_from_centre.reset_index(inplace = True, drop = False)
-    distance_from_centre.rename(columns = {'index': 'Points'}, inplace = True, errors = 'raise')
+    distance_from_centre.sort_values(by = ['District'], ascending = True, inplace = True)
+    distance_from_centre.reset_index(drop=True, inplace = True)
 
     return distance_from_centre
