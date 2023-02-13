@@ -81,9 +81,10 @@ def foursquare_query (query, category, place, limit=10):
     request_points = []
     for i in range(len(response)):
         request_points.append(Point(response[i]['geocodes']['main']['longitude'], response[i]['geocodes']['main']['latitude']))
-    
+    name_list = [response[i]['name'] for i in range(len(response))]
+
     # creation of dataframe with the actual shapely Point coordinates
-    d = {'Coordinates': request_points, 'Name': response[i]['name'], 'Type': response[i]['categories'][0]['name']}
+    d = {'Coordinates': request_points, 'Name': name_list, 'Type': response[i]['categories'][0]['name']}
     df = pd.DataFrame(data=d)
     return df
 
@@ -129,7 +130,7 @@ def district_distribution (count_df):
     Takes the count dataframe obtained in the function above, with the count of establishments per district
     Returns the map plot of this distribution.
     '''
-    paris_map = Map(location = [48.86, 2.35], zoom_start = 11)
+    paris_map = Map(location = [48.86, 2.35], zoom_start = 9)
     folium.Choropleth(
         geo_data=geo_feature,
         data=count_df,

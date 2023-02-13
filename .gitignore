@@ -1,2 +1,14 @@
 .env
+.ipynb_checkpoints
+
 __pycache__
+
+feature.geojson
+paris.geojson
+
+companies_queried.csv
+
+companies_collection.ipynb
+suitable_cities.ipynb
+paris_geoqueries.ipynb
+ponderation.ipynb
