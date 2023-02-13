@@ -10,3 +10,4 @@ paris.geojson
 ponderation.ipynb
 suitable_cities.ipynb
 .DS_Store
+queried_db.json
