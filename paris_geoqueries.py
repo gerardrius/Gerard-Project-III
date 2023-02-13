@@ -26,6 +26,34 @@ paris = list(paris.find())
 with open('feature.geojson') as geo_file:
     geo_feature = json.load(geo_file)
 
+def arrondissement_scraping ():
+    '''
+    Function that scraps a table from wikipedia containing info for Paris' districts.
+    Does not take any argument and returns a dataframe with the name of each district sorted alphabetically and its area.
+    '''
+
+    url = 'https://en.wikipedia.org/wiki/Arrondissements_of_Paris'
+    html = requests.get(url)
+    soup = BeautifulSoup(html.content, "html.parser")
+    table = soup.find_all("table", attrs = {"class":"wikitable"})
+    arrondissements_info = pd.read_html(table[0].prettify())[0]
+    arrondissements_info['Area (km  2  )'] = arrondissements_info['Area (km  2  )'].apply(lambda x: x.split('km')[0])
+    arrondissements_info['Area (km  2  )'] = arrondissements_info['Area (km  2  )'].apply(lambda x: x.split('\xa0')[0])
+    arrondissements_info['Area (km  2  )'] = arrondissements_info['Area (km  2  )'].apply(lambda x: float(x))
+    districts_area = arrondissements_info[['Name', 'Area (km  2  )']]
+    districts_area.rename(columns={'Area (km  2  )': 'Area'}, inplace = True, errors = 'raise')
+
+    # Since first 4 districts are grouped together in area and they have similar shape:
+    for i in range(4):
+        districts_area.loc[i, 'Area'] = (districts_area.iloc[i]['Area']/4)
+
+    districts_area.sort_values(by = ['Name'], ascending = True, inplace = True)
+    districts_area.reset_index(drop = True, inplace = True)
+
+    return districts_area
+
+# Dataframe with each district area in squared kilometers.
+area_info = arrondissement_scraping()
 
 def foursquare_query (query, place, limit=10):
     '''
@@ -55,20 +83,19 @@ def foursquare_query (query, place, limit=10):
     df = pd.DataFrame(data=d)
     return df
 
-def spot_finder (df):
+def spot_finder (df): # accepts as much df as variables of interest for the new office location.
     '''
     Function that counts instances per district in Paris.
     Takes the dataframe obtained in the 4 square geoquery
-    Returns a dictionary with the count of establishments per district.
+    Returns a dataframe with the density of establishments per squared km per district.
     '''
-
     # We append the list of districts as keys in a dict, and set a default value of 0 for each key.
     district_list = [paris[i]['properties']['name'] for i in range(len(paris))]
     dict_count = {}
     for i in district_list:
         dict_count[i] = 0
 
-    with open('feature.geojson') as geo_file: # In this one, paris geojson including feature!!!
+    with open('feature.geojson') as geo_file:
         geo_feature = json.load(geo_file)
 
     # Iteration through each pair of coordinates to see what Paris district they match, being districts defined in geo_feature file.
@@ -81,11 +108,17 @@ def spot_finder (df):
                     dict_count[feature["properties"]["name"]] += 1
 
     count_df = pd.DataFrame.from_dict(dict_count, orient="index").reset_index(drop=False)
-    count_df.rename(columns={'index': 'District', 0: 'Count'}, inplace=True, errors='raise')
+    count_df.rename(columns={'index': 'District', 0: 'Density'}, inplace=True, errors='raise')
+    count_df.sort_values(by = ['District'], ascending = True, inplace = True)
+    count_df.reset_index(inplace = True, drop = True)
+
+    # weighted count by district area: 
+    for i in range(count_df.shape[0]):
+        count_df.loc[i, 'Density'] = count_df.loc[i, 'Density'] / area_info.iloc[i]['Area']
 
     return count_df
 
-# Feature geojson is the one used to plot
+# Feature geojson is the one used to plot (ALSO USEFUL TO PLOT PUNCTUATIONS)
 def district_distribution (count_df):
     '''
     Function that plots the establishments distribution in Paris' districts.
@@ -100,4 +133,47 @@ def district_distribution (count_df):
         key_on="feature.properties.name",
     ).add_to(paris_map)
     
-    return paris_map    
+    return paris_map
+
+def distance_criteria (query):
+    '''
+    Function defined to run into distance criteria function, running specific queries at 4 square to get distances from
+    each district to the place queried.
+    It takes the query as argument
+    Returns a dataframe with the distances ordered and the attribution of points according to the ponderation system.
+    '''
+
+    # created a dict that stores the center point of each district, to take it as reference for distances
+    district_centre_dict = {}
+    for feature in geo_feature['features']:
+        polygon = shape(feature['geometry'])
+        district_centre_dict[feature['properties']['name']] = (polygon.centroid.y,polygon.centroid.x)
+
+    # dict to store distances from district center to closest queried place
+    distance_from_centre = {}
+
+    # url for the API query
+    for district, centre_point in district_centre_dict.items():
+        url = f"https://api.foursquare.com/v3/places/search?query={query}&ll={centre_point[0]}%2C{centre_point[1]}&sort=DISTANCE&limit=1"
+
+        headers = {
+            "accept": "application/json",
+            "Authorization": foursquare_key
+        }
+        # full response
+        dist_resp = requests.get(url, headers=headers).json()['results'][0]['distance']
+
+        # we get the distance of first response since we sort by distance and the criteria here is to get closest queried items.
+        distance_from_centre[district] = dist_resp
+
+    distance_from_centre = pd.DataFrame.from_dict(distance_from_centre, orient='index').reset_index(drop=False)
+    distance_from_centre.rename(columns = {'index': 'District', 0: 'Distance'}, inplace = True, errors = 'raise')
+    distance_from_centre.sort_values(by = ['Distance'], ascending = False, inplace = True)
+    distance_from_centre.reset_index(inplace = True, drop = True)
+    distance_from_centre.reset_index(inplace = True, drop = False)
+    distance_from_centre.rename(columns = {'index': 'Points'}, inplace = True, errors = 'raise')
+
+    return distance_from_centre
+
+def density_criteria ():
+    pass

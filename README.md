@@ -12,21 +12,26 @@ Database criteria:
 
 4 Squared criteria: 
     1. Query instances in Paris through 4sq ✅ function done
-    2. get the count per district -> store data in df 
-    3. plot map distribution per variable ->
+    2. get the count per district -> store data in df ✅ function done
+    3. plot map distribution per variable -> ✅ function done
     4. Define ponderation scheme -> dividing instances by sq kms: sum of instances/area (also you could attribute some weight)
 
     for airports, distance, the less the most points.
 
     5. for basketball, query basketball stadiums and plot a radius of 10kms (should be easy)
 
-    Nearby schools 
-    Starbucks 
+
+Distance criteria (from each district)!
     Airports
-    Party
-    Vegan restaurants
-    Basketball stadiums
+    Basketball stadiums (binary -> less than 10km or not)
     Dog hair dresser
+
+Density criteria
+    Nearby schools
+    Starbucks
+    Party places
+    Vegan restaurants
+
 
 CHOICE OF THE DISTRICT. 
 
