@@ -42,3 +42,9 @@ def full_distance_query (query1, category):
     query = distance_criteria(query, category)
     normalization = density_or_points_normalizer(query, query1)
     return normalization
+
+def ponderation_classification ():
+    area_info.drop(['Area'], inplace=True, axis='columns')
+    area_info['Sums'] = area_info.sum(axis=1)
+    ponderation = area_info[['Name', 'Sums']]
+    return ponderation

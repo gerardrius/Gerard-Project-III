@@ -87,7 +87,7 @@ def foursquare_query (query, category, place, limit=10):
     df = pd.DataFrame(data=d)
     return df
 
-def spot_finder (df): # accepts as much df as variables of interest for the new office location.
+def spot_finder (df):
     '''
     Function that counts instances per district in Paris.
     Takes the dataframe obtained in the 4 square geoquery
