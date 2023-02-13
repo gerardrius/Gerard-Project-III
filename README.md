@@ -5,7 +5,7 @@ Rocket Studios is a company that operates in the videogames sector. It was estab
 Until now, Rocket Studios have not had physical offices nor headquarters; all employees worked remotely. However, the company is growing fast and the CEO would like to enhance corporate culture and face-to-face activity among the firm.
 
 
-![rocket](../Gerard-Project-III/Images/Rocket-Analytics.png)
+![rocket](Images/Rocket-Analytics.png)
 
 
 With this objective, the CEO asked the Analytics team what district should the company settle its headquarters. Beforehand, the HR team conducted some research among company peers to know which are the needs and demands of the employees regarding the new location.
@@ -60,13 +60,13 @@ The first objective of the project was to query the companies collection from Mo
 
 After applying the query, the resulting map had the following shape:
 
-![map](../Gerard-Project-III/Images/Mongo%20DB%20distribution.png)
+![map](Images/Mongo%20DB%20distribution.png)
 
 It can be observed that Europe has most of the occurrences, especially in the UK and France.
 
 More on this point, not all companies in the collection included the coordinates of their offices. However, the distribution does not change much. This would be the cities with a higher number of offices according to the query.
 
-![cities_count](../Gerard-Project-III/Images/city%20count%20mongo.png)
+![cities_count](Images/city%20count%20mongo.png)
 
 For this set of reasons, the best location for our headquarters is going to be Paris.
 
@@ -82,13 +82,13 @@ On the other hand, a single airport is enough for the executives to travel. For 
 
 To get this information, we used foursquare API, from where we have obtained location data of the establishments or locations of interests. Below, there is an example of some of the data queried for vegan restaurants.
 
-![vegan_query](../Gerard-Project-III/Images/vegan%20query.png)
+![vegan_query](Images/vegan%20query.png)
 
 Note that queries were limited to 50 instances. The results would have been much more representative if we could have queried all results in a given radius covering the whole city.
 
 To complete the first example, below we have the distribution plot in Paris' map.
 
-![vegan_dist](../Gerard-Project-III/Images/vegan.png)
+![vegan_dist](Images/vegan.png)
 
 ---
 
@@ -98,39 +98,39 @@ Concerning the district choice, we have developed a ponderation scheme that tran
 
 In the table below, we see the result of this ponderation for each variable.
 
-![whole_ponderation](../Gerard-Project-III/Images/Whole%20results.png)
+![whole_ponderation](Images/Whole%20results.png)
 
 The districts that had a 1 in a given variable had the best score (e.g. the highest density or lowest distance), and viceversa. Those with a value between 0 and 1 had a score between the lowest and the higher, and normalized score acts accordingly.
 
 ## Distance variables' results
 
 ### Airports
-![airport_query](../Gerard-Project-III/Images/Airport%20query.png)
+![airport_query](Images/Airport%20query.png)
 
 ### Dog hairdresser
-![dog_query](../Gerard-Project-III/Images/dog%20query.png)
+![dog_query](Images/dog%20query.png)
 
 ### Basketball court
-![basket](../Gerard-Project-III/Images/basket%20query.png)
+![basket](Images/basket%20query.png)
 
 ## Density variables' results
 
 ### Starbucks
-![starbucks](../Gerard-Project-III/Images/Starbucks.png)
+![starbucks](Images/Starbucks.png)
 
 ### Elementary schools
-![schools](../Gerard-Project-III/Images/schools.png)
+![schools](Images/schools.png)
 
 ### Vegan restaurants
-![vegan_result](../Gerard-Project-III/Images/vegan_res.png)
+![vegan_result](Images/vegan_res.png)
 
 
 # All variables distribution
 
-![all_variables](../Gerard-Project-III/Images/Result%20map.png)
+![all_variables](Images/Result%20map.png)
 
 In the map above, we have the final distribution taking all variables of interest into account. The trend that can be observed in each single variable plot gets consolidated in these results. Centric arrondissements have a higher density of services and establishments and they perform better overall.
 
 Luxembourg takes a clear lead and will become the location for Rocket Studios headquarters!
 
-![RESULT](../Gerard-Project-III/Images/classification.png)
+![RESULT](Images/classification.png)
