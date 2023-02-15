@@ -1,8 +1,8 @@
 # Import of all functions and libraries from the project.
-from companies_collection import *
-from suitable_cities import *
-from paris_geoqueries import *
-from ponderation import *
+from py_files.companies_collection import *
+from py_files.suitable_cities import *
+from py_files.paris_geoqueries import *
+from py_files.ponderation import *
 
 # COMPANIES COLLECTION (MONGO DB)
 client = MongoClient('localhost:27017')

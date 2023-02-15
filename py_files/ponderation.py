@@ -1,6 +1,6 @@
 from sklearn import preprocessing
 import pandas as pd
-from paris_geoqueries import *
+from py_files.paris_geoqueries import *
 
 def density_or_points_normalizer (df, query):
     '''

@@ -22,7 +22,7 @@ paris = db.get_collection('paris')
 paris = list(paris.find())
 
 # import of Paris districts' collection, (with feature!!!)
-with open('feature.geojson') as geo_file:
+with open('../json/feature.geojson') as geo_file:
     geo_feature = json.load(geo_file)
 
 def arrondissement_scraping ():
@@ -100,7 +100,7 @@ def spot_finder (df):
     for i in district_list:
         dict_count[i] = 0
 
-    with open('feature.geojson') as geo_file:
+    with open('../json/feature.geojson') as geo_file:
         geo_feature = json.load(geo_file)
 
     # Iteration through each pair of coordinates to see what Paris district they match, being districts defined in geo_feature file.
