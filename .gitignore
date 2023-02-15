@@ -1,12 +1,1 @@
-__pycache__
-.ipynb_checkpoints
-.env
-companies_collection.ipynb
-companies_queried.csv
-feature.geojson
-paris_geoqueries.ipynb
-paris.geojson
-ponderation.ipynb
-suitable_cities.ipynb
-.DS_Store
-queried_db.json
+Hidden
